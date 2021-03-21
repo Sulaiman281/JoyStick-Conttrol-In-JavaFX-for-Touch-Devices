@@ -40,6 +40,10 @@ public class TouchControl extends AnchorPane {
             x = e.getSceneX();
             y = e.getSceneY();
         });
+        mover.setOnTouchPressed(e->{
+            x = e.getTouchPoint().getSceneX();
+            y = e.getTouchPoint().getSceneY();
+        });
 
         mover.setOnMouseDragged(e->{
             double offsetX = (e.getSceneX() - x);
@@ -68,7 +72,38 @@ public class TouchControl extends AnchorPane {
             x = e.getSceneX();
             y = e.getSceneY();
         });
+        mover.setOnTouchMoved(e->{
+            double offsetX = (e.getTouchPoint().getSceneX() - x);
+            double offsetY = (e.getTouchPoint().getSceneY() - y);
+
+            double new_x = mover.getLayoutX() + offsetX;
+            double new_y = mover.getLayoutY() + offsetY;
+            if(new_x > 200)
+                mover.setLayoutX(200);
+            else if(new_x < 100)
+                mover.setLayoutX(100);
+            else
+                mover.setLayoutX(new_x);
+
+            if(new_y > 200)
+                mover.setLayoutY(200);
+            else if(new_y < 100)
+                mover.setLayoutY(100);
+            else
+                mover.setLayoutY(new_y);
+
+            horizontal = normalize(new_x,150,200);
+            vertical = normalize(new_y,150,200);
+            System.out.println("Horizontal: "+horizontal+"\t"+"Vertical: "+vertical);
+
+            x = e.getTouchPoint().getSceneX();
+            y = e.getTouchPoint().getSceneY();
+        });
         mover.setOnMouseReleased(e->{
+            mover.setLayoutX(150);
+            mover.setLayoutY(150);
+        });
+        mover.setOnTouchReleased(e->{
             mover.setLayoutX(150);
             mover.setLayoutY(150);
         });
